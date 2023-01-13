@@ -1,0 +1,29 @@
+version: "3.6" ## especifica a versão do docker-compose file
+
+services: ## Define um serviço
+  api: ## nome do serviço
+    image: node:16-alpine
+    working_dir: /usr/app/API
+    user: root
+    #restart: always
+    container_name: API 
+    command: > 
+      sh -c "rm -r -f ./node_modules && npm install && npx nodemon index.js" ## comando a executar
+    ports:
+      - "3001:3001" ## redirecionamento de porta quando chegar alguma requisição na porta 5001 chama o container na porta 3001
+    volumes:
+      - ./API:/usr/app/API ## monitoro a pasta atual . e envio as alterações
+  web: ## nome do serviço  
+    image: node:16-alpine
+    #restart: always
+    container_name: web 
+    working_dir: /usr/web
+    command: > 
+      sh -c "rm -r -f ./node_modules && npm install && npm start" ## comando a executar
+    ports:
+      - "3000:3000" ## redirecionamento de porta quando chegar alguma requisição na porta 5000 chama o container na porta 3000
+    volumes:
+      - ./web:/usr/web ## monitoro a pasta atual . e envio as alterações para /usr/web
+
+    ## entrar no continer
+    ## sudo docker exec -it [idcontainer] /bin/sh
