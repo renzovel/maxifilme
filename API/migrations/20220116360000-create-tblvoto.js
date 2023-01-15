@@ -15,7 +15,8 @@ module.exports = {
         type: Sequelize.TEXT
       },
       apagado: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        defaultValue:0
       },
       tblusuarioId: {
         type: Sequelize.INTEGER,

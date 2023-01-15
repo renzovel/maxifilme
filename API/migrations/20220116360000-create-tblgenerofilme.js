@@ -9,7 +9,8 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       apagado: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        defaultValue:0
       },
       tblgeneroId: {
         type: Sequelize.INTEGER,
