@@ -28,6 +28,21 @@ async function validarCadastro(req, res, next){
     }
 }
 
+async function validarLogin(req, res, next){
+    const items={}, {email, senha} = req.body;
+    if(!validator.isEmail(email)){
+        items.email=email;
+    }
+    if(!validator.isLength(senha,{min:8,max:20})||validator.isEmpty(senha, {ignore_whitespace:false})){
+        items.senha=senha;
+    }
+    if(Object.keys(items).length>0){
+        res.status(200).json({msg:"Dados inválidos.",data:items});
+    }else{
+        next();
+    }
+}
+
 async function usuarioExiste(req, res, next){
     const {email} = req.body;
     req.usuarioExiste=await Usuarios.findOne({where:{email:email}});
@@ -47,9 +62,24 @@ router.post('/cadastrar', validarCadastro, usuarioExiste, async  (req, res) => {
             createdAt: new Date(),
             updatedAt: new Date()
         });
-        res.status(200).json({msg:"ok",data:true});
+        res.status(200).json({msg:"ok",data:{token:token}});
     }else{
-        res.status(200).json({msg:"Usuario ja existe.",data:false});
+        res.status(200).json({msg:"Usuário já cadastrado no sistema.",data:false});
+    }
+})
+
+//login 
+router.post('/login', validarLogin, usuarioExiste, async (req, res) => {
+    if(req.usuarioExiste!==null){
+        if(bcrypt.compareSync(req.body.senha, req.usuarioExiste.senha)){
+            var token = jwt.sign({ email: req.usuarioExiste.email, vence:  limite}, privateKey);
+            const resposta = await req.usuarioExiste.update({token:token});
+            res.status(200).json({msg:"ok",data:{token:token}});
+        }else{
+            res.status(200).json({msg:"Senha incorreta.",data:false});
+        }
+    }else{
+        res.status(200).json({msg:"Usuario não cadastrado no sistema.",data:false});
     }
 })
 
@@ -73,11 +103,6 @@ router.put('/', async (req, res) => {
 
 //apagar um cadastro
 router.delete('/:id', async (req, res) => {
-    res.status(200).json({});
-})
-
-//login 
-router.post('/login', async (req, res) => {
     res.status(200).json({});
 })
 
