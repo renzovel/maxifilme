@@ -15,7 +15,7 @@ module.exports = {
       id:1,
       nome:'RENZO ',
       email:'admin@maxifilme.com',
-      senha:'$2b$10$Qh2LUcXb4fClQck7Umbr4uiSbIgpuy9JmOX370Gj3xrCD01/Uu1pO',
+      senha:'$2b$10$DcHnTaKUNtFR2oMojfa0/eituUyQmf4iedQi6RcgiMBcBJpJPzCyC',
       confirmado:1,
       foto:null,
       nivel:1,
