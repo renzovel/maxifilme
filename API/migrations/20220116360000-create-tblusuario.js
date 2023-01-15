@@ -18,22 +18,22 @@ module.exports = {
         type: Sequelize.STRING
       },
       confirmado: {
-        type: Sequelize.BOOLEAN
-      },
-      datan: {
-        type: Sequelize.DATEONLY
+        type: Sequelize.BOOLEAN,
+        defaultValue:0
       },
       foto: {
         type: Sequelize.STRING
       },
       nivel: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        defaultValue:2
       },
       token: {
         type: Sequelize.STRING
       },
       apagado: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.INTEGER,
+        defaultValue:0
       },
       createdAt: {
         allowNull: false,

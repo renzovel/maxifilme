@@ -22,11 +22,10 @@ module.exports = (sequelize, DataTypes) => {
     email: DataTypes.STRING,
     senha: DataTypes.STRING,
     confirmado: DataTypes.BOOLEAN,
-    datan: DataTypes.DATE,
     foto: DataTypes.STRING,
     nivel: DataTypes.INTEGER,
     token: DataTypes.STRING,
-    apagado: DataTypes.BOOLEAN
+    apagado: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'tblusuario',

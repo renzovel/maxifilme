@@ -17,7 +17,6 @@ module.exports = {
       email:'admin@maxifilme.com',
       senha:'$2b$10$Qh2LUcXb4fClQck7Umbr4uiSbIgpuy9JmOX370Gj3xrCD01/Uu1pO',
       confirmado:1,
-      datan:'01/01/1999',
       foto:null,
       nivel:1,
       token:null,
