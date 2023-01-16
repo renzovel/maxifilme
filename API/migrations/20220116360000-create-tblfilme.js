@@ -14,7 +14,10 @@ module.exports = {
       descricao: {
         type: Sequelize.TEXT
       },
-      autor: {
+      diretor: {
+        type: Sequelize.STRING
+      },
+      atores: {
         type: Sequelize.STRING
       },
       image: {

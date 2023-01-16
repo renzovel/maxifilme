@@ -20,7 +20,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     nome: DataTypes.STRING,
     descricao: DataTypes.TEXT,
-    autor: DataTypes.STRING,
+    director: DataTypes.STRING,
+    atores: DataTypes.STRING,
     image: DataTypes.STRING,
     apagado: DataTypes.BOOLEAN,
     tblusuarioId: DataTypes.INTEGER
