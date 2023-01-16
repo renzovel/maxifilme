@@ -14,9 +14,6 @@ module.exports = {
       descricao: {
         type: Sequelize.TEXT
       },
-      genero: {
-        type: Sequelize.STRING
-      },
       autor: {
         type: Sequelize.STRING
       },

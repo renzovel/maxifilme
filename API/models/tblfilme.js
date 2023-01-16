@@ -20,7 +20,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     nome: DataTypes.STRING,
     descricao: DataTypes.TEXT,
-    genero: DataTypes.STRING,
     autor: DataTypes.STRING,
     image: DataTypes.STRING,
     apagado: DataTypes.BOOLEAN,
