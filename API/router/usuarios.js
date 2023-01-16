@@ -4,11 +4,10 @@ var jwt = require('jsonwebtoken');
 var bcrypt = require('bcrypt');
 var validator = require('validator');
 const TblUsuarios = require('../models/tblusuario');
-const { Connection, DataTypes} = require("./config");
+const { Connection, DataTypes, privateKey, JWTMinutos} = require("./config");
 const Usuarios = TblUsuarios(Connection, DataTypes);
 const salt = bcrypt.genSaltSync(10);
-const privateKey = "55j6h5j4j55h3jhk4jh54kj5h4j5k455j4h5j4h54jh5";
-const limite = Math.floor(Date.now() / 1000) - 30;
+
 
 async function validarCadastro(req, res, next){
     const items={}, {nome, email, senha} = req.body;
@@ -53,7 +52,7 @@ async function usuarioExiste(req, res, next){
 router.post('/cadastrar', validarCadastro, usuarioExiste, async  (req, res) => {
     const {nome, email, senha} = req.body;
     if(req.usuarioExiste==null){
-        var token = jwt.sign({ email: email, vence:  limite}, privateKey);
+        var token = jwt.sign({ email: email, vence:  JWTMinutos}, privateKey);
         const CreateUsuarios=await Usuarios.create({
             nome: nome,
             email: email,
@@ -72,7 +71,7 @@ router.post('/cadastrar', validarCadastro, usuarioExiste, async  (req, res) => {
 router.post('/login', validarLogin, usuarioExiste, async (req, res) => {
     if(req.usuarioExiste!==null){
         if(bcrypt.compareSync(req.body.senha, req.usuarioExiste.senha)){
-            var token = jwt.sign({ email: req.usuarioExiste.email, vence:  limite}, privateKey);
+            var token = jwt.sign({ email: req.usuarioExiste.email, vence:  JWTMinutos}, privateKey);
             const resposta = await req.usuarioExiste.update({token:token});
             res.status(200).json({msg:"ok",data:{token:token}});
         }else{
