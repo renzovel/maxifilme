@@ -126,9 +126,13 @@ router.get('/all', ValidateToken, isAdmin, async (req, res) => {
 
 //apagar um cadastro
 router.delete('/apagar', ValidateToken, isAdmin, validarEmail, async (req, res) => {
-    const {email}=req.body;
-    const apagar= await Usuarios.update({apagado:1},{where:[{email:email}]});
-    res.status(200).json({msg:"ok",data:{}});
+    try{
+        const {email}=req.body;
+        const apagar= await Usuarios.update({apagado:1},{where:[{email:email}]});
+        res.status(200).json({msg:"ok",data:req.body});
+    }catch(e){
+        res.status(200).json({msg:"Erro ao apagar o registro.",data:req.body});
+    }
 })
 
 

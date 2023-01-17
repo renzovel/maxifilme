@@ -243,4 +243,15 @@ router.get('/generos', async (req, res)=>{
 })
 
 
+//apagar um cadastro
+router.delete('/apagar', ValidateToken, isAdmin, async (req, res) => {
+    try{
+        const {id}=req.body;
+        const apagar= await Filmes.update({apagado:1},{where:[{id:id}]});
+        res.status(200).json({msg:"ok",data:req.body});
+    }catch(e){
+        res.status(200).json({msg:"Erro ao apagar o registro",data:req.body});
+    }
+})
+
 module.exports = router;
