@@ -17,9 +17,9 @@ Sistemas de filmes online, inclui registro de filmes.
 ### Enta na pasta /API
 
 - 1 `npm install`
-- 2 `npm start`
-- 3 `npx sequelize-cli db:migrate`
-- 4 `npx sequelize-cli db:seed:all`
+- 2 `npx sequelize-cli db:migrate`
+- 3 `npx sequelize-cli db:seed:all`
+- 4 `npm start`
 
 ### Enta na pasta /web
 
