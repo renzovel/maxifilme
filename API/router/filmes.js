@@ -45,7 +45,8 @@ async function ValidateToken(req, res, next){
 
 async function validarCadastro(req, res, next){
     let items={}, {nome, descricao, diretor, atores, generos } = req.body;
-    if(!validator.isAlpha(nome)||!validator.isLength(nome,{min:4,max:40})||validator.isEmpty(nome, {ignore_whitespace:false})){
+    console.log(!validator.isLength(nome,{min:4,max:40}),validator.isEmpty(nome, {ignore_whitespace:false}))
+    if(!validator.isLength(nome,{min:4,max:40})||validator.isEmpty(nome, {ignore_whitespace:false})){
         items.nome=nome;
     }
     if(!validator.isLength(descricao,{min:4,max:200})||validator.isEmpty(descricao, {ignore_whitespace:false})){
