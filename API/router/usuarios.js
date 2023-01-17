@@ -44,7 +44,7 @@ async function validarLogin(req, res, next){
 
 async function usuarioExiste(req, res, next){
     const {email} = req.body;
-    req.usuarioExiste=await Usuarios.findOne({where:{email:email}});
+    req.usuarioExiste=await Usuarios.findOne({where:{email:email, apagado:0}});
     next();
 }
  
@@ -84,7 +84,7 @@ router.post('/login', validarLogin, usuarioExiste, async (req, res) => {
 
 //mostrar todos 
 router.get('/all', async (req, res) => { 
-    const AllUsuarios=await Usuarios.findAll();
+    const AllUsuarios=await Usuarios.findAll({where : {apagado:0}});
     res.status(200).json({ action: 'Listar Usuarios', data : AllUsuarios});
 })
 
