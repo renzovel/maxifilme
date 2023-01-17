@@ -19,8 +19,6 @@ var path = require("path");
 const upload = multer({ dest: path.resolve(`${__dirname}/../uploads/images/`)})
 
 
-
-
 const isAdmin=(req,res,next)=>{
     req.usuarioExiste.nivel === 1?next():res.status(401).json({msg:"Usuario inválido, acesso negado.",data:{}}).end();
 }
@@ -102,7 +100,8 @@ router.post('/cadastrar', ValidateToken, isAdmin,  upload.single('image', 1), va
             descricao: descricao,
             diretor:diretor,
             atores: JSON.stringify(atores),
-            imagen: req.file.filename,
+            image: req.file.filename,
+            tblusuarioId:req.usuarioExiste.id,
             createdAt: new Date(),
             updatedAt: new Date()
         });
