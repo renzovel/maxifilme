@@ -3,3 +3,4 @@ node_modules/
 uploads/
 uploads/*
 uploads/images/
+package-lock.json

@@ -8,7 +8,9 @@ services: ## Define um serviço
     #restart: always
     container_name: API 
     command: > 
-      sh -c "rm -r -f ./node_modules && npm install && npx nodemon index.js" ## comando a executar
+      sh -c "rm -r -f ./node_modules  && npm install && npx sequelize-cli db:migrate && 
+             npx sequelize-cli db:seed:undo:all && 
+             npx sequelize-cli db:seed:all && npx nodemon index.js" ## comando a executar
     ports:
       - "3001:3001" ## redirecionamento de porta quando chegar alguma requisição na porta 5001 chama o container na porta 3001
     volumes:

@@ -1,0 +1,14 @@
+{
+  "development": {
+    "storage": "database/dbmaxifilme.db",
+    "dialect": "sqlite"
+  },
+  "test": {
+    "storage": "database/dbmaxifilme.db",
+    "dialect": "sqlite"
+  },
+  "production": {
+    "storage": "database/dbmaxifilme.db",
+    "dialect": "sqlite"
+  }
+}
