@@ -28,7 +28,7 @@ async function ValidateToken(req, res, next){
     jwt.verify(meuToken, privateKey, async (erro, decode)=>{
         if(erro===null){
             try{
-                req.usuarioExiste=await Usuarios.findOne({where:{email:decode.email}});
+                req.usuarioExiste=await Usuarios.findOne({where:[{email:decode.email},{apagado:0}]});
                 if(req.usuarioExiste!==null){
                     next();
                 }else{
