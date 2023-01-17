@@ -1,5 +1,5 @@
 var path = require("path");
-const {Sequelize, DataTypes} = require("sequelize");
+const {Sequelize, DataTypes, Op} = require("sequelize");
 module.exports={
     Connection:new Sequelize({
         dialect: 'sqlite',
@@ -7,5 +7,6 @@ module.exports={
     }),
     DataTypes:DataTypes,
     privateKey:"55j6h5j4j55h3jhk4jh54kj5h4j5k455j4h5j4h54jh5",
-    TokenExpire:'1h'
+    TokenExpire:'1h',
+    Op:Op
 }
