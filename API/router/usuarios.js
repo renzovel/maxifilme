@@ -9,6 +9,31 @@ const Usuarios = TblUsuarios(Connection, DataTypes);
 const salt = bcrypt.genSaltSync(10);
 
 
+const isAdmin=(req,res,next)=>{
+    req.usuarioExiste.nivel === 1?next():res.status(401).json({msg:"Usuario inválido, acesso negado.",data:{}}).end();
+}
+
+async function ValidateToken(req, res, next){
+    let meuToken = req.headers['access-token'];
+    jwt.verify(meuToken, privateKey, async (erro, decode)=>{
+        if(erro===null){
+            try{
+                req.usuarioExiste=await Usuarios.findOne({where:[{email:decode.email},{apagado:0}]});
+                if(req.usuarioExiste!==null){
+                    next();
+                }else{
+                    res.status(401).json({msg:"Usuario inválido, acesso negado.",data:{}}).end();
+                }
+            }catch(e){
+                res.status(401).json({msg:"Usuario inválido, acesso negado.",data:{}}).end();
+            }
+        }else{
+            res.status(401).json({msg:"Token inválido, acesso negado.",data:{}}).end();
+        }
+    }) 
+}
+
+
 async function validarCadastro(req, res, next){
     const items={}, {nome, email, senha} = req.body;
     if(!validator.isEmail(email)){
@@ -42,6 +67,18 @@ async function validarLogin(req, res, next){
     }
 }
 
+async function validarEmail(req, res, next){
+    const items={}, {email} = req.body;
+    if(!validator.isEmail(email)){
+        items.email=email;
+    }
+    if(Object.keys(items).length>0){
+        res.status(200).json({msg:"Dados inválidos.",data:items});
+    }else{
+        next();
+    }
+}
+
 async function usuarioExiste(req, res, next){
     const {email} = req.body;
     req.usuarioExiste=await Usuarios.findOne({where:{email:email, apagado:0}});
@@ -49,7 +86,7 @@ async function usuarioExiste(req, res, next){
 }
  
 //cadastrar 
-router.post('/cadastrar', validarCadastro, usuarioExiste, async  (req, res) => {
+router.post('/cadastrar', ValidateToken, isAdmin, validarCadastro, usuarioExiste, async  (req, res) => {
     const {nome, email, senha} = req.body;
     if(req.usuarioExiste==null){
         var token = jwt.sign({ email: email}, privateKey, { expiresIn: TokenExpire });
@@ -57,7 +94,6 @@ router.post('/cadastrar', validarCadastro, usuarioExiste, async  (req, res) => {
             nome: nome,
             email: email,
             senha: bcrypt.hashSync(senha,salt),
-            token: token,
             createdAt: new Date(),
             updatedAt: new Date()
         });
@@ -83,26 +119,17 @@ router.post('/login', validarLogin, usuarioExiste, async (req, res) => {
 })
 
 //mostrar todos 
-router.get('/all', async (req, res) => { 
+router.get('/all', ValidateToken, isAdmin, async (req, res) => { 
     const AllUsuarios=await Usuarios.findAll({where : {apagado:0}});
     res.status(200).json({ action: 'Listar Usuarios', data : AllUsuarios});
 })
 
-//mostrar apenas um
-router.get('/:email', async (req, res) => {
-    console.log(req.params.email)
-    res.status(200).json({});
-})
-
-//atualizar um cadatro
-router.put('/', async (req, res) => {
-    //recebe um formulario
-    res.status(200).json({});
-})
-
 //apagar um cadastro
-router.delete('/:id', async (req, res) => {
-    res.status(200).json({});
+router.delete('/apagar', ValidateToken, isAdmin, validarEmail, async (req, res) => {
+    const {email}=req.body;
+    const apagar= await Usuarios.update({apagado:1},{where:[{email:email}]});
+    res.status(200).json({msg:"ok",data:{}});
 })
+
 
 module.exports = router;
