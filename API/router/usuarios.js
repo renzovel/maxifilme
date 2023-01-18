@@ -54,11 +54,19 @@ async function validarCadastro(req, res, next){
 
 async function validarLogin(req, res, next){
     const items={}, {email, senha} = req.body;
-    if(!validator.isEmail(email)){
-        items.email=email;
+    if(typeof email!=="string"){
+        items.email="";
+    }else{
+        if(!validator.isEmail(email)){
+            items.email=email;
+        }
     }
-    if(!validator.isLength(senha,{min:8,max:20})||validator.isEmpty(senha, {ignore_whitespace:false})){
-        items.senha=senha;
+    if(typeof senha!=="string"){
+        items.senha="";
+    }else{
+        if(!validator.isLength(senha,{min:8,max:20})||validator.isEmpty(senha, {ignore_whitespace:false})){
+            items.senha=senha;
+        }
     }
     if(Object.keys(items).length>0){
         res.status(200).json({msg:"Dados inválidos.",data:items});
