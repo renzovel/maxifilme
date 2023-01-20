@@ -46,6 +46,7 @@ function Login() {
         localStorage.setItem("token",res.data.token)
         localStorage.setItem("email",res.data.user.email)
         localStorage.setItem("nome",res.data.user.nome)
+        localStorage.setItem("nivel",res.data.user.nivel)
         setRedirect(true)
       }
     })

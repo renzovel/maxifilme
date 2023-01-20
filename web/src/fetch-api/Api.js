@@ -34,8 +34,9 @@ async function DELETE(url, dataObject) {
     return await connect({ url: url, options:{method: 'DELETE', 
     headers: { 
         'Accept':'application/json',
-        'Content-Type': 'application/json' 
-    }, body:JSON.stringify(dataObject) }});
+        'Content-Type': 'application/json',
+        'access-token': localStorage.token||undefined
+    }, body:dataObject}});
 }
 
 async function PUT(url, dataObject) {
