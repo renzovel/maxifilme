@@ -61,6 +61,9 @@ export default class Filmes extends React.Component {
             <Card.Text>
               {res.descricao}
             </Card.Text>
+            <Card.Text style={{textAlign:"left"}}>
+              Diretor: {res.diretor}
+            </Card.Text>
             {localStorage.nivel==="1"?<><Button variant="primary" onClick={() => alert("Ver")}>Ver</Button>&nbsp;
             <Button variant="primary" onClick={() => alert("Editar")}>Editar</Button>&nbsp;
             <Button variant="primary" onClick={() => _this.deletarFilmeShow(res.id,res.nome)}>Apagar</Button>&nbsp;</>:<></>}
