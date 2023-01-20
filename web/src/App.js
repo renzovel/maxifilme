@@ -1,7 +1,8 @@
 import React from 'react';
-import { Route, BrowserRouter, Routes } from "react-router-dom";
+import { Route, BrowserRouter, Routes, Navigate } from "react-router-dom";
 import Usuarios from './componentes/Usuarios';
 import Filmes from './componentes/Filmes';
+import './asset/css/App.css';
 
 
 
@@ -13,7 +14,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route element={<Login />} path="/Login" />
-        <Route element={<Painel render={<Usuarios />} />} path="/Painel" />
+        <Route element={<Painel render={<Filmes />} />} path="/Painel" />
         <Route element={<Painel render={<Usuarios />} />} path="/Usuarios" />
         <Route element={<Painel render={<Filmes />} />} path="/Filmes" />
       </Routes>

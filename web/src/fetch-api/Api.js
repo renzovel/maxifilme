@@ -23,7 +23,8 @@ async function POST(url, dataObject) {
     return await connect({ url: url, options:{method: 'POST', 
     headers: { 
         'Accept':'application/json',
-        'Content-Type': 'application/json' 
+        'Content-Type': 'application/json',
+        'access-token': localStorage.token||undefined
     }, 
     body:dataObject}}); 
 }

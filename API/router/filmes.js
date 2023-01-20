@@ -30,7 +30,16 @@ async function ValidateToken(req, res, next){
             try{
                 req.usuarioExiste=await Usuarios.findOne({where:[{email:decode.email},{apagado:0}]});
                 if(req.usuarioExiste!==null){
-                    next();
+                    if(req.usuarioExiste.token!==meuToken){
+                        try{
+                            const apagar= await Usuarios.update({token:null},{where:[{email:email}]});
+                            res.status(401).json({msg:"Usuario inválido, acesso negado.",data:{}}).end();
+                        }catch(e){
+                            res.status(401).json({msg:"Usuario inválido, acesso negado.",data:{}}).end();
+                        }
+                    }else{
+                        next();
+                    }
                 }else{
                     res.status(401).json({msg:"Usuario inválido, acesso negado.",data:{}}).end();
                 }
@@ -133,35 +142,45 @@ router.post('/cadastrar', ValidateToken, isAdmin,  upload.single('image', 1), va
     }
 })
 
-router.get('/all/:str', async (req, res)=>{
+router.get(['/all/:str','/all','/:id'], async (req, res)=>{
     try{
-        let {str} = req.params;
-        const AllFilmes=await Filmes.findAll({where:[
-            {[Op.or]: [
-              {
-                nome: {
-                  [Op.like]: `%${str}%`
-                }
-              },
-              {
-                descricao: {
-                  [Op.like]: `%${str}%`
-                }
-              },
-              {
-                diretor: {
-                  [Op.like]: `%${str}%`
-                }
-              },
-              {
-                atores: {
-                  [Op.like]: `%${str}%`
-                }
-              }
-            ]},
-            {apagado:0}
-          ]})
-        res.status(200).json({msg:"ok",data:AllFilmes});
+        let {str, id} = req.params;
+        if(typeof id=="string"&&Number(id)!==NaN){
+            const AllFilmes=await Filmes.findOne({where:{id: Number(id)  ,apagado:0}});
+            res.status(200).json({msg:"ok",data:AllFilmes}); 
+        }else{
+            if (typeof str==="undefined") { 
+                const AllFilmes=await Filmes.findAll({where:{apagado:0}});
+                res.status(200).json({msg:"ok",data:AllFilmes});           
+            }else{        
+                const AllFilmes=await Filmes.findAll({where:[
+                    {[Op.or]: [
+                    {
+                        nome: {
+                        [Op.like]: `%${str}%`
+                        }
+                    },
+                    {
+                        descricao: {
+                        [Op.like]: `%${str}%`
+                        }
+                    },
+                    {
+                        diretor: {
+                        [Op.like]: `%${str}%`
+                        }
+                    },
+                    {
+                        atores: {
+                        [Op.like]: `%${str}%`
+                        }
+                    }
+                    ]},
+                    {apagado:0}
+                ]})
+                res.status(200).json({msg:"ok",data:AllFilmes});
+            }
+        }
     }catch(e){
         res.status(200).json({msg:"Erro ao consultar o filme.",data:req.body});
     }

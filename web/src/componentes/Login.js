@@ -35,7 +35,7 @@ function Login() {
     setDados({});
     setLoad(true);
     let dados = { email: e.target.email.value, senha: e.target.senha.value };
-    POST(`${URLs.Usuarios}/login`, JSON.stringify(dados)).then((res) => {
+    POST(`${URLs.Usuarios}/login`, JSON.stringify(dados)).then((res) => {  
       setLoad(false)
       if(res.msg!=='ok'){
         setDados(res.data)
@@ -44,6 +44,8 @@ function Login() {
       }else{
         localStorage.clear()
         localStorage.setItem("token",res.data.token)
+        localStorage.setItem("email",res.data.user.email)
+        localStorage.setItem("nome",res.data.user.nome)
         setRedirect(true)
       }
     })
@@ -62,7 +64,7 @@ function Login() {
         show={modalRead}
         onHide={() => { setModalRead(modalRead => !modalRead) }}
       />
-       <ModalMaxi
+      <ModalMaxi
         type={"LOAD"}
         show={load}
       />
