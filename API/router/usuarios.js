@@ -20,7 +20,16 @@ async function ValidateToken(req, res, next){
             try{
                 req.usuarioExiste=await Usuarios.findOne({where:[{email:decode.email},{apagado:0}]});
                 if(req.usuarioExiste!==null){
-                    next();
+                    if(req.usuarioExiste.token!==meuToken){
+                        try{
+                            const apagar= await Usuarios.update({token:null},{where:[{email:email}]});
+                            res.status(401).json({msg:"Usuario inválido, acesso negado.",data:{}}).end();
+                        }catch(e){
+                            res.status(401).json({msg:"Usuario inválido, acesso negado.",data:{}}).end();
+                        }
+                    }else{
+                        next();
+                    }
                 }else{
                     res.status(401).json({msg:"Usuario inválido, acesso negado.",data:{}}).end();
                 }
@@ -54,11 +63,19 @@ async function validarCadastro(req, res, next){
 
 async function validarLogin(req, res, next){
     const items={}, {email, senha} = req.body;
-    if(!validator.isEmail(email)){
-        items.email=email;
+    if(typeof email!=="string"){
+        items.email="";
+    }else{
+        if(!validator.isEmail(email)){
+            items.email=email;
+        }
     }
-    if(!validator.isLength(senha,{min:8,max:20})||validator.isEmpty(senha, {ignore_whitespace:false})){
-        items.senha=senha;
+    if(typeof senha!=="string"){
+        items.senha="";
+    }else{
+        if(!validator.isLength(senha,{min:8,max:20})||validator.isEmpty(senha, {ignore_whitespace:false})){
+            items.senha=senha;
+        }
     }
     if(Object.keys(items).length>0){
         res.status(200).json({msg:"Dados inválidos.",data:items});
@@ -109,7 +126,7 @@ router.post('/login', validarLogin, usuarioExiste, async (req, res) => {
         if(bcrypt.compareSync(req.body.senha, req.usuarioExiste.senha)){
             var token = jwt.sign({ email: req.usuarioExiste.email}, privateKey, { expiresIn: TokenExpire });
             const resposta = await req.usuarioExiste.update({token:token});
-            res.status(200).json({msg:"ok",data:{token:token}});
+            res.status(200).json({msg:"ok",data:{token:token, user:{nivel:req.usuarioExiste.nivel, email:req.usuarioExiste.email, nome:req.usuarioExiste.nome }}});
         }else{
             res.status(200).json({msg:"Senha incorreta.",data:false});
         }
@@ -135,5 +152,18 @@ router.delete('/apagar', ValidateToken, isAdmin, validarEmail, async (req, res) 
     }
 })
 
+router.post('/session', ValidateToken, async (req, res) => {
+    res.status(200).json({msg:"ok",data:{}});        
+})
+
+router.post('/logout', ValidateToken, async (req, res) => {
+    try{
+        const {email}=req.body;
+        const apagar= await Usuarios.update({token:null},{where:[{email:email}]});
+        res.status(200).json({msg:"ok",data:req.body});
+    }catch(e){
+        res.status(200).json({msg:"Erro ao apagar o registro.",data:req.body});
+    }
+})
 
 module.exports = router;

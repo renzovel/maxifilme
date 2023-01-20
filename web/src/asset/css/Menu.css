@@ -1,0 +1,49 @@
+body, html{
+    margin: 0;
+    display: block;
+}
+
+.topmenu{
+    background-color: rgba(0,0,0,0.053658963585434205);
+    position: fixed;
+    display: flex;
+    width: 100%;
+    border-bottom: 1px #000;
+    min-height: 60px;
+    justify-content: space-between;
+}
+
+.nav-item > a{
+    --bs-nav-link-padding-y: 1.2rem;
+}
+
+.painel-container{
+    display: flex;
+    position: absolute;
+    width: 100%;
+    height: calc(100% - 64px);
+    margin-top: 64px;
+}
+
+.nav-left a{
+    color: #fff;
+}
+
+.nav-left > .nav{
+    display: block !important;
+}
+
+.painel-container .nav-item{
+    min-width: 200px;
+    text-align: center;
+}
+
+.content-body{
+    width: 100%;
+    height: 100%;
+}
+
+.nav-left{
+    background: rgb(28,28,28);
+    background: linear-gradient(0deg, rgba(28,28,28,1) 0%, rgba(0,0,0,0.8855917366946778) 100%);    
+}
