@@ -15,7 +15,8 @@ export default class Filmes extends React.Component {
       loadingDelete:false,
       modalDelete:false,
       deletaId:null,
-      deleteNome:null
+      deleteNome:null,
+      allFilmesData:{}
     };
     this.deletarFilme = this.deletarFilme.bind(this);
     this.deletarFilmeShow = this.deletarFilmeShow.bind(this);
@@ -27,7 +28,7 @@ export default class Filmes extends React.Component {
       const allFilmes = res.data.map((res) => {
         return _this.filmeItem(res);
       })
-      _this.setState({ allFilmes: allFilmes });
+      _this.setState({ allFilmes: allFilmes, allFilmesData: res.data});
       _this.setState({ load: false });
     })
   }
@@ -42,7 +43,14 @@ export default class Filmes extends React.Component {
       this.setState({load:true, modalDelete:false})
       DELETE(URLs.Filmes+"/apagar", JSON.stringify({id:this.state.deletaId})).then((res)=>{
         if(res.msg==="ok"){
-          _this.setState({allFilmes:null, })
+          let listaFilmes=_this.state.allFilmesData.filter(filme => filme.id !== this.state.deletaId);
+          let allFilmes = listaFilmes.map((res) => {
+            return _this.filmeItem(res);
+          })
+          _this.setState({allFilmes:allFilmes, deletaId:null, load:false, modalDelete:false, allFilmesData:listaFilmes})
+          console.log(allFilmes.length, _this.state.allFilmes.length)
+        }else{
+          _this.setState({ deletaId:null, load:false, modalDelete:false})
         }
       })
     }else{
