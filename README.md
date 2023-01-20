@@ -35,7 +35,7 @@ Sistemas de filmes online, inclui registro de filmes.
 |  http://localhost:3001/api/usuario/all |  `headers - access-token`   |  application/json | POST | Mostrar todos os usuários registrados |
 | http://localhost:3001/api/usuario/apagar | `headers - access-token` `{"email":"usuario@maxifilme.com"}` | application/json | DELETE | Apaga o registro de um usuário |
 | http://localhost:3001/api/filme/cadastrar | `headers - access-token` `- nome ` `- descricao ` `- diretor ` `- atores : '["",""]' (String) ` `- generos : '[1,2]' (String([id] Number, [id] Number)) ` `- image : (File)` |  multipart/form-data | POST | Registre os filmes |
-| http://localhost:3001/api/filme/all/[:strPesquisa] | `:strPesquisa` | application/json | GET | Verifique todos os filmes registrados apenas com um texto de pesquisa |
+| http://localhost:3001/api/filme/all/[:strPesquisa] http://localhost:3001/api/filme/all http://localhost:3001/api/filme/all/[:id] | `:strPesquisa` | application/json | GET | Verifique todos os filmes registrados apenas com um texto de pesquisa |
 | http://localhost:3001/api/filme/diretor/[:nomeDiretor]  | `:nomeDiretor` | application/json  | GET |   Filtrar filmes pelo nome do diretor     |
 | http://localhost:3001/api/filme/atores | `["nome1","nome2","nome...N"]` | application/json |  GET | Filtre o filme por um ou mais nomes de atores |
 | http://localhost:3001/api/filme/generos | `["nome1","nome2","nome...N"]` | application/json  | GET | Filtrar filmes por nome de gêneros  |
