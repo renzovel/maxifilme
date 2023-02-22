@@ -5,6 +5,7 @@ const URLs={
     defaultUser:"https://ui-avatars.com/api/?background=227aee&name=Renzo+Veliz&color=FFFF",
     Usuarios:urlBaseApi+"/api/usuario",
     Filmes:urlBaseApi+"/api/filme",
+    Generos:urlBaseApi+"/api/genero",
     urlImages:urlBaseApi+"/images"
 }
 

@@ -6,7 +6,7 @@ import '../asset/css/CreateFilme.css';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import ModalMaxi from './ModalMaxi';
-import {URLs, POSTFile} from '../fetch-api/Api'
+import {URLs, POSTFile, GET} from '../fetch-api/Api'
 
 
 class CreateFilme extends Component{
@@ -17,7 +17,8 @@ class CreateFilme extends Component{
             generosIsValid:true,
             generos:[],
             atores:[],
-            load:false
+            load:false,
+            allGeneros:[]
         }
         this.schema = yup.object().shape({
             nome: yup.string().required("Campo obrigatório."),
@@ -46,7 +47,14 @@ class CreateFilme extends Component{
     }
 
     async componentDidMount(){
-        POSTFile(URLs.Filmes+'/')
+       const Generos = await GET(URLs.Generos+'/all');
+
+        const allGeneros = Generos.data.map((item)=> { return { labelKey: item.id, value : item.nome } })
+        allGeneros[0].isSelected=true;
+
+       this.setState({
+        allGeneros: allGeneros
+       })
     }
 
     
@@ -183,17 +191,7 @@ class CreateFilme extends Component{
 
                 <Form.Group className="mb-3" controlId="idGeneros">
                     <Form.Label className="form-label_aling">Generos :</Form.Label>
-                    <BootstrapSelect  isMultiSelect={true} options={[
-                        {
-                            labelKey: "optionItem1",
-                            value: "Option item 1",
-                            isSelected: true,
-                        },
-                        {
-                            labelKey: "optionItem2",
-                            value: "Option item 2"
-                        }
-                    ]} onChange={this.handleChange} name="generos" placeholder="Escolha os generos do filme..." style={{width:"-webkit-fill-available"}} className={state.generosIsValid?'':"is-invalid"} />
+                    <BootstrapSelect  isMultiSelect={true} options={state.allGeneros} onChange={this.handleChange} name="generos" placeholder="Escolha os generos do filme..." style={{width:"-webkit-fill-available"}} className={state.generosIsValid?'':"is-invalid"} />
                     <br />
                     <Form.Control.Feedback type="invalid">
                     {state.generosIsValid?'':'Atores nao validos.'}

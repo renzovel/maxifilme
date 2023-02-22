@@ -16,7 +16,11 @@ async function connect({ url, options }) {
 }
 
 async function GET(url) {
-    return await connect({ url: url, options:{method: 'GET' }});
+    return await connect({ url: url, options:{method: 'GET', headers: { 
+        'Accept':'application/json',
+        'Content-Type': 'application/json',
+        'access-token': localStorage.token||undefined
+    }}});
 }
 
 async function POST(url, dataObject) {
