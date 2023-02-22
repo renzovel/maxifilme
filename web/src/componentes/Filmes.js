@@ -2,11 +2,15 @@ import React from 'react';
 import { Button, Card } from 'react-bootstrap';
 import { URLs, GET,  DELETE } from '../fetch-api/Api';
 import ModalMaxi from './ModalMaxi';
+import CreateFilme from "./CreateFilme";
 
 
 
 
 export default class Filmes extends React.Component {
+  static defaultProps={
+    isCreateFilme:true
+  }
   constructor(props) {
     super(props);
     this.state = { 
@@ -84,6 +88,7 @@ export default class Filmes extends React.Component {
 
   render() {
     const {allFilmes, load, loadingDelete, modalDelete, deleteNome} = this.state;
+    const {props} = this
     return (<>
             <ModalMaxi
                 type={"DELETE"}
@@ -97,8 +102,8 @@ export default class Filmes extends React.Component {
               type={"LOAD"}
               show={load}
             />            
-            {allFilmes}
-            </>);
+            {props.isCreateFilme?<CreateFilme />:allFilmes}
+            </>); 
   }
 }
 

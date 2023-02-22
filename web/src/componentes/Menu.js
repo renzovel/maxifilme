@@ -34,7 +34,7 @@ function MenuTop(){
             <div>
             <Nav>
                 <Nav.Item>
-                    <Nav.Link onClick={(e)=>{sair(e)}}>Logout</Nav.Link>
+                    <Nav.Link onClick={sair}>Logout</Nav.Link>
                 </Nav.Item>
             </Nav>
             </div>
@@ -49,14 +49,20 @@ function MenuTop(){
 function MenuLeft(props){
     return(
         <div className="nav-left">
-            <Nav>
-                <Nav.Item>
-                    <Nav.Link href="/filmes"  >Filmes</Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                    <Nav.Link href="/usuarios" >Usuarios</Nav.Link>
-                </Nav.Item>
-            </Nav>
+            <ul>
+                <li className="show-submenu"><a href="">Filmes</a>
+                    <ul>
+                        <li><a href="">Ver</a></li>
+                        <li><a href="">Crear</a></li>
+                    </ul>
+                </li>
+                <li><a href="">Usuarios</a>
+                    <ul>
+                        <li><a href="">Ver</a></li>
+                        <li><a href="">Crear</a></li>
+                    </ul>
+                </li>
+            </ul>
         </div>
     )
 }

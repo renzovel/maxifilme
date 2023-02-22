@@ -1,6 +1,7 @@
 
 import {Modal, Button} from 'react-bootstrap';
 export default function ModalMaxi(props) {
+    
     const RenderButtom = ()=>{
         let render=null;
         switch(props.type){
@@ -22,12 +23,14 @@ export default function ModalMaxi(props) {
         }
         return render;
     }
+    
     return (
       <Modal
         {...props}
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
+        className={props.type === "LOAD" ?'loadActive':''}
       >{props.type === "LOAD" ? <div className="loading"></div>
         : <><Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">

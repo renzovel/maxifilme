@@ -29,6 +29,16 @@ async function POST(url, dataObject) {
     body:dataObject}}); 
 }
 
+async function POSTFile(url, FormData) {
+    return await connect({ url: url, options:{method: 'POST', 
+    headers: { 
+        'Accept':'application/form-data',
+        'Content-Type': 'multipart/form-data',
+        'access-token': localStorage.token||undefined
+    }, 
+    body:FormData}}); 
+}
+
 async function DELETE(url, dataObject) {
     console.log(url);
     return await connect({ url: url, options:{method: 'DELETE', 
@@ -47,4 +57,4 @@ async function PUT(url, dataObject) {
     body:dataObject}});   
 }
 
-export { URLs, GET, POST, DELETE, PUT };
+export { URLs, GET, POST, DELETE, PUT, POSTFile };
