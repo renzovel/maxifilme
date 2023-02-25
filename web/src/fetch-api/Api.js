@@ -34,10 +34,10 @@ async function POST(url, dataObject) {
 }
 
 async function POSTFile(url, FormData) {
+    console.log(" requisicion : ", FormData )
     return await connect({ url: url, options:{method: 'POST', 
     headers: { 
-        'Accept':'application/form-data',
-        'Content-Type': 'multipart/form-data',
+        'Accept':'*/*',
         'access-token': localStorage.token||undefined
     }, 
     body:FormData}}); 
