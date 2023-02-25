@@ -23,21 +23,21 @@ async function ValidateToken(req, res, next){
                     if(req.usuarioExiste.token!==meuToken){
                         try{
                             const apagar= await Usuarios.update({token:null},{where:[{email:email}]});
-                            res.status(401).json({msg:"Usuario inválido, acesso negado.",data:{}}).end();
+                            res.status(200).json({msg:"Usuario inválido, acesso negado.",data:{}}).end();
                         }catch(e){
-                            res.status(401).json({msg:"Usuario inválido, acesso negado.",data:{}}).end();
+                            res.status(200).json({msg:"Usuario inválido, acesso negado.",data:{}}).end();
                         }
                     }else{
                         next();
                     }
                 }else{
-                    res.status(401).json({msg:"Usuario inválido, acesso negado.",data:{}}).end();
+                    res.status(200).json({msg:"Usuario inválido, acesso negado.",data:{}}).end();
                 }
             }catch(e){
-                res.status(401).json({msg:"Usuario inválido, acesso negado.",data:{}}).end();
+                res.status(200).json({msg:"Usuario inválido, acesso negado.",data:{}}).end();
             }
         }else{
-            res.status(401).json({msg:"Token inválido, acesso negado.",data:{}}).end();
+            res.status(200).json({msg:"Token inválido, acesso negado.",data:{}}).end();
         }
     }) 
 }
@@ -153,7 +153,7 @@ router.delete('/apagar', ValidateToken, isAdmin, validarEmail, async (req, res) 
 })
 
 router.post('/session', ValidateToken, async (req, res) => {
-    res.status(200).json({msg:"ok",data:{}});        
+    res.status(200).json({msg:"ok",data:{token:req.headers['access-token'], user:{nivel:req.usuarioExiste.nivel, email:req.usuarioExiste.email, nome:req.usuarioExiste.nome }}});        
 })
 
 router.post('/logout', ValidateToken, async (req, res) => {
