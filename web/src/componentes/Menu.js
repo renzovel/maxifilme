@@ -1,7 +1,9 @@
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
 import '../asset/css/Menu.css'
-import { Link, Navigate } from "react-router-dom";
-import {URLs, POST} from "../fetch-api/Api";
+import { Link, useNavigate } from "react-router-dom";
+import {URLs} from "../fetch-api/Api";
+
+import ContextAuth from "../Auth/Context";
 
 import {Nav} from 'react-bootstrap';
 
@@ -12,22 +14,20 @@ function MenuTop(){
     const [load, setLoad] = useState(false);
     const [redirect, setRedirect] = useState(false);
 
-    const sair=(e)=>{
+    const context = useContext(ContextAuth);
+    const navigate = useNavigate();
+
+    const sair=async (e)=>{
         e.preventDefault();
-        POST(`${URLs.Usuarios}/logout`, JSON.stringify({})).then((res) => {
-            localStorage.clear()
-            setRedirect(true)
-            setLoad(true) 
-        }).catch((e)=>{
-            localStorage.clear()
-            setRedirect(true)
-            setLoad(true) 
-        })
+        const res=await context.logout();
+        if(res===true){
+            navigate("/Login");
+        }
+        setLoad(false)
     }
 
     return(
         <div className="topmenu">
-            {!redirect?null:<Navigate to="/login" />}
             <div>
                 <img src={URLs.defaultUser} />
             </div>
@@ -50,16 +50,17 @@ function MenuLeft(props){
     return(
         <div className="nav-left">
             <ul>
-                <li className="show-submenu"><a href="">Filmes</a>
+                <li className="show-submenu"><a href="Filmes">Filmes</a>
                     <ul>
-                        <li><a href="">Ver</a></li>
-                        <li><a href="">Crear</a></li>
+                        <li><a href="Filmes" onClick={()=>props.render("view")}>Ver</a></li>
+                        <li><a href="Filmes" onClick={()=>props.render("create")}>Criar</a></li>
+                        <Link to="Create">Criar Filmes</Link> 
                     </ul>
                 </li>
-                <li><a href="">Usuarios</a>
+                <li><a href="Usuarios">Usuarios</a>
                     <ul>
-                        <li><a href="">Ver</a></li>
-                        <li><a href="">Crear</a></li>
+                        <li><a href="Filmes" onClick={()=>props.render("view")}>Ver</a></li>
+                        <li><a href="Filmes" onClick={()=>props.render("create")}>Criar</a></li>
                     </ul>
                 </li>
             </ul>

@@ -1,11 +1,12 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import '../asset/css/Login.css';
 import ModalMaxi from './ModalMaxi';
 import { URLs, POST } from "../fetch-api/Api"
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import ContextAuth from '../Auth/Context'
 
 
 
@@ -17,44 +18,39 @@ function Login() {
   const [load, setLoad] = useState(false);
   const [dados, setDados] = useState({});
 
-  const [redirect, setRedirect] = useState(false);
-
-  useEffect(() => {
-    if(localStorage.getItem("token")){
-      setRedirect(true)
-    }
-  }, []);
-
-
+  const context = useContext(ContextAuth);
+  const navigate = useNavigate();
   const clearForm=()=>{
     setDados({})
   }
 
-  const loginUser = (e) => {
+  useEffect(() => {
+    if(context.usuario){
+      navigate("/Painel")
+    }
+  }, [context]);
+
+  const loginUser = async (e) => {
     e.preventDefault();
     setDados({});
     setLoad(true);
     let dados = { email: e.target.email.value, senha: e.target.senha.value };
-    POST(`${URLs.Usuarios}/login`, JSON.stringify(dados)).then((res) => {  
+
+    const res = await context.login(dados.email, dados.senha);
+    if (res===true) {
+      navigate("/Painel")
+    } else {
       setLoad(false)
-      if(res.msg!=='ok'){
-        setDados(res.data)
-        setModalRead(true)
-        setMsglRead(res.msg)
-      }else{
-        localStorage.clear()
-        localStorage.setItem("token",res.data.token)
-        localStorage.setItem("email",res.data.user.email)
-        localStorage.setItem("nome",res.data.user.nome)
-        localStorage.setItem("nivel",res.data.user.nivel)
-        setRedirect(true)
-      }
-    })
+      setDados(res.data)
+      setModalRead(true)
+      setMsglRead(res.msg)
+    }
   }
+
+  
 
   return (
     <div className="loginContainer">
-      {!redirect?null:<Navigate to="/painel" />}
       <ModalMaxi
         type={"READ"}
         title={"Aviso"}
