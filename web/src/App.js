@@ -1,6 +1,6 @@
-import React from 'react';
-import { Route, BrowserRouter, Routes, Navigate } from "react-router-dom";
-import Usuarios from './componentes/Usuarios';
+import React, {useState} from 'react';
+import { Route, Routes, Navigate } from "react-router-dom";
+import RequireAuth from './Auth/RequireAuth';
 import Filmes from './componentes/Filmes';
 import './asset/css/App.css';
 
@@ -8,18 +8,17 @@ import './asset/css/App.css';
 
 import Login from './componentes/Login';
 import Painel from './componentes/Painel';
+import CreateFilme from './componentes/CreateFilme';
 
-function App() {
+function App(props) {
   return (
-    <BrowserRouter>
+    
       <Routes>
         <Route element={<Login />} path="/Login" />
-        <Route element={<Login />} path="/" />
-        <Route element={<Painel render={<Filmes />} />} path="/Painel" />
-        <Route element={<Painel render={<Usuarios />} />} path="/Usuarios" />
-        <Route element={<Painel render={<Filmes />} />} path="/Filmes" />
+        <Route element={<RequireAuth><Painel><Filmes /></Painel></RequireAuth>} path="/Painel" />
+        <Route element={<RequireAuth><Painel><Filmes /></Painel></RequireAuth>} path="/Filmes" />
+        <Route element={<RequireAuth><Painel><CreateFilme /></Painel></RequireAuth>} path="/Filmes/Create" />
       </Routes>
-    </BrowserRouter>
   );
 }
 

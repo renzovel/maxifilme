@@ -18,12 +18,14 @@ class CreateFilme extends Component{
             generos:[],
             atores:[],
             load:false,
-            allGeneros:[]
+            allGeneros:[],
+            modalAviso:false,
+            modalAvisoMsg:""
         }
         this.schema = yup.object().shape({
             nome: yup.string().required("Campo obrigatório."),
             descricao: yup.string().required("Campo obrigatório."),
-            diretor: yup.string().required("Campo obrigatório."),
+            diretor: yup.string().required("Campo obrigatório.").min(4,"Minimo 4 caracteres").max(10, "Maximo 10 caracteres"),
             image:yup.mixed().test('image', 'Tipo de imagen nao permitida.', (value)=>{
                 let valid=false;
                 if(value==null || typeof value!=='object'){
@@ -44,6 +46,7 @@ class CreateFilme extends Component{
           });
         this.handleChange= this.handleChange.bind(this);
         this.handleSubmit= this.handleSubmit.bind(this);
+        this.hideModalAviso= this.hideModalAviso.bind(this);
     }
 
     async componentDidMount(){
@@ -100,9 +103,35 @@ class CreateFilme extends Component{
             for(const item in data){
                 form.append(item, data[item])
             }
-            form.append("atores", this.state.atores)
-            form.append("generos", this.state.generos)
+            form.append("atores", JSON.stringify(this.state.atores))
+            form.append("generos", JSON.stringify(this.state.generos))
+            const res =await POSTFile(URLs.Filmes+"/cadastrar", form);
+        
+            if(res.msg==="ok"){
+                func.resetForm();
+                this.setState({
+                    load:false,
+                    modalAvisoMsg:"O filme foi cadastrado con sucesso.",
+                    modalAviso:true
+                })
+            }else{
+                for(const item in res.data){
+                    func.setFieldError(item, res.msg);
+                }
+                this.setState({
+                    load:false,
+                    modalAvisoMsg:"Aconteceu um erro ao tentar cadastrar o filme.",
+                    modalAviso:true
+                })
+            }
+            
         }
+    }
+
+    hideModalAviso(){
+        this.setState({
+            modalAviso:false
+        })
     }
 
 
@@ -112,6 +141,12 @@ class CreateFilme extends Component{
             <ModalMaxi
               type={"LOAD"}
               show={state.load}
+            />  
+            <ModalMaxi
+              type={"READ"}
+              show={state.modalAviso}
+              onHide={this.hideModalAviso}
+              message={state.modalAvisoMsg}
             />    
             <Formik 
                 validationSchema={this.schema}

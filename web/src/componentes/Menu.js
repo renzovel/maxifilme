@@ -9,6 +9,8 @@ import {Nav} from 'react-bootstrap';
 
 import ModalMaxi from './ModalMaxi';
 
+import Channel from '../ServiceEvent';
+
 
 function MenuTop(){
     const [load, setLoad] = useState(false);
@@ -32,11 +34,11 @@ function MenuTop(){
                 <img src={URLs.defaultUser} />
             </div>
             <div>
-            <Nav>
-                <Nav.Item>
-                    <Nav.Link onClick={sair}>Logout</Nav.Link>
-                </Nav.Item>
-            </Nav>
+                <Nav>
+                    <Nav.Item>
+                        <Nav.Link onClick={sair}>Logout</Nav.Link>
+                    </Nav.Item>
+                </Nav>
             </div>
             <ModalMaxi
                 type={"LOAD"}
@@ -52,9 +54,8 @@ function MenuLeft(props){
             <ul>
                 <li className="show-submenu"><a href="Filmes">Filmes</a>
                     <ul>
-                        <li><a href="Filmes" onClick={()=>props.render("view")}>Ver</a></li>
-                        <li><a href="Filmes" onClick={()=>props.render("create")}>Criar</a></li>
-                        <Link to="Create">Criar Filmes</Link> 
+                        <Link to="/Filmes">Listar Filmes</Link> 
+                        <Link to="/Filmes/Create">Criar Filmes</Link> 
                     </ul>
                 </li>
                 <li><a href="Usuarios">Usuarios</a>

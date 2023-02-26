@@ -7,10 +7,8 @@ import CreateFilme from "./CreateFilme";
 
 
 
+
 export default class Filmes extends React.Component {
-  static defaultProps={
-    isCreateFilme:true
-  }
   constructor(props) {
     super(props);
     this.state = { 
@@ -83,11 +81,10 @@ export default class Filmes extends React.Component {
         </Card>
       </div>
     )
-  }
-  
+  }  
 
   render() {
-    const {allFilmes, load, loadingDelete, modalDelete, deleteNome} = this.state;
+    const { load, loadingDelete, modalDelete, deleteNome} = this.state;
     const {props} = this
     return (<>
             <ModalMaxi
@@ -102,7 +99,7 @@ export default class Filmes extends React.Component {
               type={"LOAD"}
               show={load}
             />            
-            {props.isCreateFilme?<CreateFilme />:allFilmes}
+            {this.state.allFilmes}
             </>); 
   }
 }
