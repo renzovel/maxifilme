@@ -1,14 +1,9 @@
 import React from 'react';
 import { Button, Card } from 'react-bootstrap';
-import { URLs, GET,  DELETE } from '../fetch-api/Api';
-import ModalMaxi from './ModalMaxi';
-import CreateFilme from "./CreateFilme";
+import { URLs, GET,  DELETE } from '../../fetch-api/Api';
+import ModalMaxi from '../ModalMaxi';
 
-
-
-
-
-export default class Filmes extends React.Component {
+export default class FilmeList extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
