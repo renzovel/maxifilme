@@ -95,7 +95,7 @@ class Create extends React.Component{
     handleChange(value){
         switch (value.el.getAttribute("name")) {
             case 'generos':
-                    if(value.selectedValue.length==0){
+                    if(value.selectedValue.length===0){
                         this.setState({
                             generosIsValid:false,
                             generos:[]
@@ -108,7 +108,7 @@ class Create extends React.Component{
                     }
                 break;
             case 'atores':
-                    if(value.selectedValue.length==0){
+                    if(value.selectedValue.length===0){
                         this.setState({
                             atoresIsValid:false,
                             atores:[]
@@ -119,6 +119,8 @@ class Create extends React.Component{
                             atores: value.selectedValue
                         })
                     }
+                break;
+            default: 
                 break;
         }
         

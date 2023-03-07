@@ -1,7 +1,6 @@
-import React, {useState} from 'react';
-import { Route, Routes, Navigate } from "react-router-dom";
+import React from 'react';
+import { Route, Routes } from "react-router-dom";
 import RequireAuth from './Auth/RequireAuth';
-import Filmes from './componentes/Filmes/FilmeList';
 import './asset/css/App.css';
 
 

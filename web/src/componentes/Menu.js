@@ -9,13 +9,8 @@ import {Nav} from 'react-bootstrap';
 
 import ModalMaxi from './ModalMaxi';
 
-import Channel from '../ServiceEvent';
-
-
 function MenuTop(){
     const [load, setLoad] = useState(false);
-    const [redirect, setRedirect] = useState(false);
-
     const context = useContext(ContextAuth);
     const navigate = useNavigate();
 
@@ -31,7 +26,7 @@ function MenuTop(){
     return(
         <div className="topmenu">
             <div>
-                <img src={URLs.defaultUser} />
+                <img src={URLs.defaultUser} alt={"User"} />
             </div>
             <div>
                 <Nav>

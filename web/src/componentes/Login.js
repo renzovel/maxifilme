@@ -4,7 +4,6 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import '../asset/css/Login.css';
 import ModalMaxi from './ModalMaxi';
-import { URLs, POST } from "../fetch-api/Api"
 import { useNavigate } from "react-router-dom";
 import ContextAuth from '../Auth/Context'
 
@@ -28,7 +27,7 @@ function Login() {
     if(context.usuario){
       navigate("/Painel")
     }
-  }, [context]);
+  }, [context.usuario]);
 
   const loginUser = async (e) => {
     e.preventDefault();

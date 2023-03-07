@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Card } from 'react-bootstrap';
 import { URLs, GET,  DELETE } from '../../fetch-api/Api';
 import ModalMaxi from '../ModalMaxi';
+import { Link } from 'react-router-dom';
 
 export default class FilmeList extends React.Component {
   constructor(props) {
@@ -70,7 +71,7 @@ export default class FilmeList extends React.Component {
               Diretor: {res.diretor}
             </Card.Text>
             {localStorage.nivel==="1"?<><Button variant="primary" onClick={() => alert("Ver")}>Ver</Button>&nbsp;
-            <Button variant="primary" onClick={() => alert("Editar")}>Editar</Button>&nbsp;
+            <Link to={`/Filmes/Edit/${res.id}`}><Button variant="primary">Editar</Button></Link>&nbsp;
             <Button variant="primary" onClick={() => _this.deletarFilmeShow(res.id,res.nome)}>Apagar</Button>&nbsp;</>:<></>}
           </Card.Body>
         </Card>
@@ -80,7 +81,6 @@ export default class FilmeList extends React.Component {
 
   render() {
     const { load, loadingDelete, modalDelete, deleteNome} = this.state;
-    const {props} = this
     return (<>
             <ModalMaxi
                 type={"DELETE"}

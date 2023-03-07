@@ -16,7 +16,7 @@ class NewForm extends React.Component{
     input({type, name, title, placeholder, options, handleChangeOption, isvalid}, values, errors, handleChange, setFieldValue){
         switch (type) {
             case "text":
-                return <>
+                return (<>
                     <Form.Group key={name} className="mb-3" controlId={`id${name.trim()}`}>
                         <Form.Label className="form-label_aling">{title}</Form.Label>
                         <Form.Control type="text" name={name} placeholder={placeholder}
@@ -28,10 +28,9 @@ class NewForm extends React.Component{
                         {errors[name]}
                         </Form.Control.Feedback>
                     </Form.Group>
-                </>               
-                break;
+                </>)  
             case "multitext":
-                return <>
+                return (<>
                      <Form.Group key={name} className="mb-3" controlId={`id${name.trim()}`}>
                         <Form.Label className="form-label_aling">{title}</Form.Label>
                         <BootstrapSelect  isMultiSelect={true} options={options} onChange={handleChangeOption} name={name} placeholder="Escolha os atores do filme..." style={{width:"-webkit-fill-available"}} className={isvalid?'':"is-invalid"}  />
@@ -40,10 +39,9 @@ class NewForm extends React.Component{
                         {isvalid?'':'Dados nao validos.'}
                         </Form.Control.Feedback>
                     </Form.Group>
-                </>               
-                break;    
+                </>)      
             case "file":
-                return <>
+                return (<>
                     <Form.Group key={name} className="mb-3" controlId={`id${name.trim()}`}>
                         <Form.Label className="form-label_aling">{title}</Form.Label>
                         <Form.Control type="file" required name={name} placeholder={placeholder} 
@@ -54,15 +52,13 @@ class NewForm extends React.Component{
                         {errors[name]}
                         </Form.Control.Feedback>
                     </Form.Group>
-                </>
-                break;  
+                </>)
             case "boton":
-                return <Button variant="primary" type="submit">
+                return (<Button variant="primary" type="submit">
                     {title}
-                </Button>   
+                </Button>)   
             default:
-                return <></>
-                break;
+                return (<></>)
         }
     }
 

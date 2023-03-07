@@ -52,7 +52,7 @@ const ProviderAuth = (props) =>{
     }
 
     const logout = async () =>{
-        const res = await POST(`${URLs.Usuarios}/logout`, JSON.stringify({}));
+        await POST(`${URLs.Usuarios}/logout`, JSON.stringify({}));
         try {
             localStorage.clear()
         } catch (error) {
